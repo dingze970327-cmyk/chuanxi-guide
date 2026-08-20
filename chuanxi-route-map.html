@@ -112,6 +112,11 @@
 
   .attrcard.bonus{border:1px dashed #d5c3e8;background:#fbfaff;}
   .attrcard.bonus .badge{color:#7b4db3;background:#f3edfb;border-color:#e2d5f5;}
+
+  .warnlist{list-style:none;margin:0;padding:var(--sp-md) var(--sp-base) var(--sp-md) 30px;}
+  .warnlist li{position:relative;padding:6px 0;border-bottom:1px dashed var(--hairline-soft);font-size:13px;color:var(--body);line-height:1.6;}
+  .warnlist li:last-child{border:none}
+  .warnlist li::before{content:'⚠';position:absolute;left:-22px;color:#e67e22;font-size:12px;}
 </style>
 </head>
 <body>
@@ -418,38 +423,55 @@ const ATTRS={
 ]};
 const BONUS={
 1:[
- {n:'甘海子(卧龙)',badge:'卫生费约20 · 岔路+徒步2h',desc:'卧龙方向的高山草甸，云海+牛羊，XHS上145赞的成都周边高山草甸平替。D1顺路但需2h徒步，时间紧可跳过。',tip:'导航「卧龙甘海子」，停车场在G350边；若当天走夹金山绕行线则不顺路。'}
+ {n:'甘海子(卧龙)',badge:'卫生费约20 · 岔路+徒步2h',la:31.0219,lo:103.1986,desc:'卧龙方向的高山草甸，云海+牛羊，XHS上145赞的成都周边高山草甸平替。D1顺路但需2h徒步，时间紧可跳过。',tip:'导航「卧龙甘海子」；若当天走夹金山绕行线则不顺路。'}
 ],
 2:[
- {n:'中路藏寨',badge:'免费 · 30min–1h',desc:'丹巴另一个嘉绒藏寨，比甲居更原生态、几乎无商业，XHS"闲逛半天"推荐。D2傍晚到得早或D3早晨可去，也可替换甲居。',tip:'导航「中路乡」，观景台在山腰，光线早晚最佳。'}
+ {n:'中路藏寨',badge:'免费 · 30min–1h',la:30.8932,lo:101.9375,desc:'丹巴另一个嘉绒藏寨，比甲居更原生态、几乎无商业。D2傍晚到得早或D3早晨可去，也可替换甲居。',tip:'导航「中路乡」，观景台在山腰。'}
 ],
 3:[
- {n:'甲依拉措',badge:'卫生费约20 · 岔路+2h',desc:'党岭方向卡尔杂村旁的海子，湖色如翡翠，可徒步或摩托(约120–140/人)。丹道秘境当天要赶道孚，只适合时间非常富余时加餐。',tip:'从党岭村岔口进卡尔杂村约10km；雨天路滑慎入。'},
- {n:'莫斯卡(土拨鼠村)',badge:'免费 · 岔路往返3h+',desc:'丹巴北边的高山牧场村，土拨鼠与人不设防，XHS热门。但与丹道方向相反，本次不顺路，建议以后单独安排。',tip:'不推荐本次加塞，赶路风险大。'}
+ {n:'甲依拉措',badge:'卫生费约20 · 岔路+2h',la:31.0650,lo:101.3383,desc:'党岭方向卡尔杂村旁的海子，湖色如翡翠，可徒步或摩托。丹道秘境当天要赶道孚，只适合时间非常富余时加餐。',tip:'从党岭村岔口进卡尔杂村约10km；雨天路滑慎入。'},
+ {n:'莫斯卡(土拨鼠村)',badge:'免费 · 岔路往返3h+',la:31.0100,lo:101.5800,desc:'丹巴北边的高山牧场村，土拨鼠与人不设防。与丹道方向相反，本次不顺路，建议以后单独安排。',tip:'不推荐本次加塞。'}
 ],
 4:[
- {n:'甲根坝·日车村/泽桑拉空中花园',badge:'免费(或清洁费) · +1–1.5h',desc:'新都桥西侧的秋季彩林秘境，10月杨树金黄。D4若到新都桥时间早(14:00前)可拐进去转一圈，替换掉天路十八弯停留也行。',tip:'导航「泽桑拉空中花园」或「日车村」；山路窄，SUV慢行。'},
- {n:'云绕雅拉观景台',badge:'清洁费约20 · +1h',desc:'塔公北侧的雅拉雪山近观位，比木雅大寺视角更近更震撼。D4若时间富余可替换木雅大寺。',tip:'塔公镇往北岔路约30min；路况一般。'}
+ {n:'甲根坝·泽桑拉空中花园',badge:'免费(或清洁费) · +1–1.5h',la:29.8600,lo:101.5300,desc:'新都桥西侧的秋季彩林秘境，10月杨树金黄。D4若14:00前到新都桥可拐进去，替换天路十八弯停留也行。',tip:'导航「泽桑拉空中花园」；山路窄，SUV慢行。'},
+ {n:'云绕雅拉观景台',badge:'清洁费约20 · +1h',la:30.3676,lo:101.6053,desc:'塔公北侧的雅拉雪山近观位，比木雅大寺视角更近。D4时间富余可替换木雅大寺。',tip:'塔公镇往北岔路约30min；路况一般。'}
 ],
 5:[
- {n:'措普沟',badge:'门票+观光车约190 · 需4–4.5h',desc:'巴塘措拉镇，热坑温泉群+章德草原+措普湖，XHS"自驾格聂千万不要错过这站"(177赞)。但D5行程已满——当日的现实选择是：砍掉反穿格聂的下午段改住巴塘，次日一早游措普沟再反穿，会多占一天，不推荐本次。',tip:'强烈建议列入"下次单独来"清单；或D5只走姊妹湖+反穿格聂，措普沟留给未来。'}
+ {n:'措普沟',badge:'门票+观光车约190 · 需4–4.5h',la:30.4949,lo:99.5494,desc:'巴塘措拉镇，热坑温泉群+章德草原+措普湖，XHS"自驾格聂千万不要错过这站"。但D5行程已满，进景区会断掉反穿格聂的下午段——本次不顺路。',tip:'强烈建议列入"下次单独来"清单。'}
 ],
 6:[
- {n:'桑堆红草地+尊胜塔林',badge:'免费 · 顺路20min',desc:'理塘→稻城G227必经桑堆镇：10月红草地开始变色，尊胜塔林白塔群极上镜。属于"已经在路上"的加餐，零绕行。',tip:'D6时间线17:00稻城前顺路停；红草滩要下午侧光。'},
- {n:'兴伊措',badge:'免费 · 岔路往返约1–1.5h',desc:'海子山稻城侧的高原海子，XHS称"稻城周边最值得的海子"(34赞)。D6若到稻城时间早可拐去看一眼；天色晚了就跳过。',tip:'稻城县城西北方向岔路；路况一般，看日落不现实(要赶香格里拉镇)。'}
+ {n:'桑堆红草地+尊胜塔林',badge:'免费 · 顺路20min',la:29.0511,lo:100.2967,desc:'理塘→稻城G227必经：10月红草地变色，尊胜塔林白塔群极上镜。零绕行加餐。',tip:'D6在17:00稻城前顺路停；红草滩下午侧光。'},
+ {n:'兴伊措',badge:'免费 · 岔路往返约1–1.5h',la:29.4017,lo:100.0916,desc:'海子山稻城侧的高原海子，XHS称"稻城周边最值得的海子"。D6到稻城时间早可拐；天黑跳过。',tip:'稻城县城西北方向岔路；路况一般。'}
 ],
 7:[
- {n:'俄初山',badge:'免费 · 岔路往返约2h',desc:'香格里拉镇南侧的免费雪山观景台，XHS"亚丁免费观景台"推荐。D7出沟后要北转理塘，方向相反，本次不顺路。',tip:'下次住香格里拉镇两晚时可安排。'}
+ {n:'俄初山',badge:'免费 · 岔路往返约2h',la:28.5631,lo:100.1938,desc:'香格里拉镇南侧的免费雪山观景台。D7出沟后要北转理塘，方向相反，本次不顺路。',tip:'下次住香格里拉镇两晚时安排。'}
 ],
 8:[
- {n:'泉华滩',badge:'卫生费约20 · +40min',desc:'玉龙西村旁的五彩钙化滩，与黄龙同类型地貌。D8从冷嘎措下撤若天还没黑可顺路看一眼；天黑就跳过。',tip:'导航「泉华滩」，就在玉龙西村附近。'},
- {n:'子梅垭口',badge:'免费(或清洁费) · 往返约1.5–2h',desc:'贡嘎正对垭口观景台，距离主峰更近更震撼，XHS贡嘎摄影第一梯队机位。D9清晨从玉龙西出发可加(日出金山)，但会推迟回成都约2h，需7:00前动身且天气极好才值得。',tip:'垭口路况较差，SUV+防滑链备着；国庆人多谨慎加塞。'}
+ {n:'泉华滩',badge:'卫生费约20 · +40min',la:29.5961,lo:101.6630,desc:'玉龙西村旁的五彩钙化滩。D8下撤若天还没黑可顺路看一眼。',tip:'导航「泉华滩」，就在玉龙西村附近。'},
+ {n:'子梅垭口',badge:'免费(或清洁费) · 往返约1.5–2h',la:29.5179,lo:101.7211,desc:'贡嘎正对垭口观景台，距离主峰更近。D9清晨可加(日出金山)，但会推迟回成都约2h，需7:00前动身且天气极好才值得。',tip:'垭口路况较差；国庆人多谨慎加塞。'}
 ],
 9:[
- {n:'斯丁措',badge:'免费(或10元) · +20min',desc:'康定机场旁的小海子，贡嘎+雅拉双雪山倒影，就在S434路边岔2km——D9景观线的零成本加餐。',tip:'导航「斯丁措」；风大时倒影差，看运气。'},
- {n:'中谷村温泉',badge:'几十元/人 · 30min可选',desc:'S434沿线温泉村，天然硫磺泉。D9赶路日可选泡脚20分钟提神，不泡也不亏。',tip:'康定出城后约20km处。'}
+ {n:'斯丁措',badge:'免费(或10元) · +20min',la:30.1550,lo:101.7520,desc:'康定机场旁的小海子，贡嘎+雅拉双雪山倒影，S434路边岔2km——D9景观线零成本加餐。',tip:'导航「斯丁措」；风大时倒影差。'},
+ {n:'中谷村温泉',badge:'几十元/人 · 30min可选',la:30.2653,lo:101.8717,desc:'S434沿线温泉村，天然硫磺泉。D9赶路日可选泡脚20分钟提神。',tip:'康定出城后约20km处。'}
 ]
 };
+const WARN={
+1:['G350 映秀-巴朗山当前管制：出发前一周查高德；绕行夹金山/理县各多1–2h','四姑娘山门票提前在公众号预约；XHS吐槽外围停车乱，早到占位','首夜3200m：不洗澡不喝酒早睡；氧气罐在成都药店买(15–25元/罐)比景区便宜一半'],
+2:['观光车17:30收班；木骡子13:00前必须折返','骑马先和马夫谈好全程价格(口头约定易被加价)','栈道+土路交替：徒步鞋+登山杖；徒步后还有2.5h车程，两司机轮换、16:30前出发'],
+3:['XHS高频吐槽"烂路被攻略一笔带过"：碎石/炮弹坑段慢行，SUV必须','村庄外无信号：离线地图+现金','下雨改走G350八美线；天黑前必须出山'],
+4:['国庆墨石/塔公人流大+排队：8:00准时出发，墨石早到','XHS对阴天墨石/塔公有劝退声：阴天石林灰、草原商业化——降低预期，天气差可砍墨石省2h','理塘4000m夜：供氧酒店、不喝酒、慢走早睡'],
+5:['XHS高频警告"巴塘→则巴村没有加油站"：巴塘必须加满油，格聂南线全程无油站','扎瓦拉垭口段落石最频：慢行、看路面、急弯鸣笛','轿车炮弹坑慎入(多篇实测)：SUV+高底盘是底线；则巴村民宿极少提前订'],
+6:['七峰观景点日出前20分钟就位，带头灯','G227弯多，夜驾/晨驾注意牦牛横穿','香格里拉镇2900m好好睡，为亚丁蓄力'],
+7:['亚丁全网劝退主因=排队+高反：对策已内置(10/4预约+6:20入园+只走中线)','贡嘎措14:30设卡劝返，过点必须折返','氧气+葡萄糖随身；白/亮色穿搭出片；16:00前出发转场理塘'],
+8:['XHS名梗"人都快冷嘎了"：羽绒服+帽手套必带，湖边风超大','国庆摆渡排队：14:00前到上赤吉西村口(比计划再早30分钟)','下撤天黑路滑带头灯；备现金；A线碎石烂路需四驱'],
+9:['XHS争议：节假日"康定-新都桥别走S434"(也会堵) vs "434封神公路"——早出发+两条线看实时路况二选一','折多山"2小时变8小时"前车之鉴；雅康高速傍晚易堵','红海子约30元/人；斯丁措风大倒影看运气']
+};
+const PREP=[
+ {n:'证件与预订',items:['身份证(实名预约/检查站)','驾驶证+行驶证','亚丁10/4门票(公众号抢)','四姑娘山/墨石门票预约','租车:坦克300级SUV全险','理塘供氧酒店×2、则巴村/玉龙西民宿']},
+ {n:'药品',items:['红景天(提前7–10天)','便携氧气罐每人3–4罐','葡萄糖口服液','布洛芬(高反头痛)','感冒药+肠胃药(高原感冒是大忌)']},
+ {n:'衣物(洋葱式)',items:['速干+抓绒+薄羽绒+防风冲锋衣','徒步鞋+登山杖×2','遮阳帽+墨镜+SPF50防晒','手套(垭口风大)','雨衣(10月垭口可能雨雪)']},
+ {n:'户外与车',items:['头灯(D2/D7/D8都要)','保温杯+高热量路餐','现金1000元(无信号区)','离线地图(高德/百度下载)','防滑链+充气泵+拖车绳','无人机(亚丁/寺院禁飞)']}
+];
 const CHECKLIST=[
  '🚙 租车：坦克300/哈弗H9/普拉多，四驱，2名司机登记，买全险并确认非铺装路面承保——国庆车源最紧，第一个办',
  '🎫 稻城亚丁门票（10/4）：公众号「稻城亚丁」抢票，限流16000人/天，实名预约、无现场票',
@@ -495,6 +517,12 @@ function buildOverview(){
   sec.appendChild(el('h3','sec','✅ 现在就要办（按紧急度）'));
   const ck=el('div','card');ck.innerHTML=CHECKLIST.map(c=>'<label class="ck"><input type="checkbox">'+c+'</label>').join('');
   sec.appendChild(ck);
+  sec.appendChild(el('h3','sec','🎒 行前准备（小红书装备清单高频项）'));
+  const pg2=el('div','attrgrid');
+  PREP.forEach(p=>{
+    pg2.appendChild(el('div','attrcard','<b>'+p.n+'</b><p style="margin-top:6px">'+p.items.map(i=>'• '+i).join('<br>')+'</p>'));
+  });
+  sec.appendChild(pg2);
   sec.appendChild(el('h3','sec','⚠️ 图面说明'));
   sec.appendChild(el('div','tips','路线已按<b>实际路网绘制</b>（OSRM 导航引擎实测，坐标已转 GCJ-02）；格聂南线/丹道秘境部分路段无信号，出发前在高德/百度下载<b>离线地图</b>。亚丁10/4门票限流16000人/天，务必提前在官方公众号预约。⚠️高德当前显示 <b>G350映秀-卧龙-巴朗山段不可通行</b>（自动绕夹金山或理县），出发前一周务必确认。冷嘎措B线12–4月封山，10月金山概率高。底图 ©高德地图/GeoQ智图，坐标已转GCJ-02。'));
   pagesEl.appendChild(sec);
@@ -529,6 +557,15 @@ function buildDay(d){
     });
     bw.appendChild(bg);
     sec.appendChild(bw);
+  }
+  const wn=WARN[d];
+  if(wn&&wn.length){
+    const ww=el('div','full');
+    ww.appendChild(el('h3','sec','⚠️ 注意事项（小红书避坑）'));
+    const wl=el('ul','warnlist card');
+    wl.innerHTML=wn.map(w=>'<li>'+w+'</li>').join('');
+    ww.appendChild(wl);
+    sec.appendChild(ww);
   }
   const colL=el('div','colL');
   colL.appendChild(el('h3','sec','⏰ 当日时间线'));
@@ -576,6 +613,18 @@ function initDayMap(d){
   btn.onclick=()=>{ if(map.hasLayer(road)){map.removeLayer(road);sat.addTo(map);btn.textContent='🗺 路网图';} else {map.removeLayer(sat);road.addTo(map);btn.textContent='🛰 卫星图';} };
   holder.appendChild(btn);
   const dayLine=(o.road&&o.road.length?o.road:o.pts);L.polyline(dayLine.map(p=>P(p[0],p[1])),{color:COLORS[d],weight:4,opacity:.9}).addTo(map);
+  const bns=BONUS[d];
+  if(bns&&bns.length){
+    const base=(o.road&&o.road.length?o.road:o.pts);
+    bns.forEach((b,i)=>{
+      if(b.la===undefined)return;
+      let bi=0,bd=1e9;
+      base.forEach((p,j)=>{const dx=p[0]-b.la,dy=p[1]-b.lo;const dd=dx*dx+dy*dy;if(dd<bd){bd=dd;bi=j;}});
+      L.polyline([P(base[bi][0],base[bi][1]),P(b.la,b.lo)],{color:'#7b4db3',weight:2,opacity:.7,dashArray:'6,6'}).addTo(map);
+      const mk=L.marker(P(b.la,b.lo),{icon:L.divIcon({className:'',html:'<div style="width:22px;height:22px;border-radius:50%;background:#7b4db3;color:#fff;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;border:2px dashed #b695dd;box-shadow:0 1px 4px rgba(0,0,0,.35)">'+String.fromCharCode(65+i)+'</div>',iconSize:[22,22],iconAnchor:[11,11]})});
+      mk.bindPopup('<b>🔁 '+b.n+'</b><br>'+b.badge);mk.addTo(map);
+    });
+  }
   o.wps.forEach((w,i)=>{
     const mk=L.marker(P(w.la,w.lo),{icon:L.divIcon({className:'',html:'<div style="width:24px;height:24px;border-radius:50%;background:'+COLORS[d]+';color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.4)">'+(i+1)+'</div>',iconSize:[24,24],iconAnchor:[12,12]})});
     mk.bindPopup('<b>'+w.n+'</b>');mk.addTo(map);
