@@ -493,6 +493,7 @@ function wgs2gcj(la,lo){if(outOfChina(la,lo))return[la,lo];let dLat=tLat(lo-105,
 const P=(la,lo)=>wgs2gcj(la,lo);
 const gdRoad=()=>L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',{subdomains:'1234',maxZoom:18,attribution:'©高德地图'});
 const gdSat=()=>L.tileLayer('https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}',{subdomains:'1234',maxZoom:18,attribution:'©高德地图'});
+function amapScheme2(w){const c=wgs2gcj(w.la,w.lo);const ua=navigator.userAgent;const nm=encodeURIComponent(w.n);if(/iPhone|iPad/i.test(ua))return 'iosamap://navi?sourceApplication=chuanxi&poiname='+nm+'&lat='+c[0]+'&lon='+c[1]+'&dev=0&style=2';if(/Android/i.test(ua))return 'amapuri://route/plan/?dlat='+c[0]+'&dlon='+c[1]+'&dname='+nm+'&dev=0&t=0';return '';}
 function amapNav(la,lo,name){const c=wgs2gcj(la,lo);return 'https://uri.amap.com/navigation?to='+c[1].toFixed(6)+','+c[0].toFixed(6)+'&toName='+encodeURIComponent(name)+'&mode=car&policy=1';}
 /* ================= 渲染 ================= */
 const tabsEl=document.getElementById('tabs');
@@ -576,7 +577,10 @@ function buildDay(d){
   o.wps.forEach((w,i)=>{
     const row=el('div','wp');
     row.innerHTML='<span class="n" style="background:'+COLORS[d]+'">'+(i+1)+'</span><span class="name">'+w.n+'</span>';
-    const a=el('a','amap','🧭 导航到此处');a.href=amapNav(w.la,w.lo,w.n);a.target='_blank';
+    const a=el('a','amap','🧭 导航到此处');
+    const web=amapNav(w.la,w.lo,w.n),sch=amapScheme2(w);
+    a.href=web;a.target='_blank';
+    if(sch){a.onclick=function(){location.href=sch;const t=Date.now();setTimeout(function(){if(Date.now()-t<2600)location.href=web;},2400);return false;};}
     row.appendChild(a);wp.appendChild(row);
   });
   const hint=el('div','');hint.style.cssText='font-size:11px;color:var(--muted-soft);margin-top:6px';
