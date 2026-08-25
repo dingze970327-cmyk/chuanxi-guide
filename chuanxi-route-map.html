@@ -117,14 +117,6 @@
   .warnlist li{position:relative;padding:6px 0;border-bottom:1px dashed var(--hairline-soft);font-size:13px;color:var(--body);line-height:1.6;}
   .warnlist li:last-child{border:none}
   .warnlist li::before{content:'⚠';position:absolute;left:-22px;color:#e67e22;font-size:12px;}
-
-  .stay-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-bottom:1px solid var(--hairline-soft);font-size:12.5px;}
-  .stay-item a{color:var(--primary);text-decoration:none;word-break:break-all;}
-  .del{color:#dc2626;cursor:pointer;font-weight:700;padding:2px 6px;}
-  .addrow{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
-  .addrow input{flex:1;min-width:110px;border:1px solid var(--hairline);border-radius:8px;padding:6px 8px;font-size:12px;font-family:inherit;}
-  .addbtn{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;}
-  .ckdel{color:#dc2626;cursor:pointer;margin-left:auto;font-weight:700;padding:0 4px;}
 </style>
 </head>
 <body>
@@ -514,47 +506,6 @@ const pagesEl=document.getElementById('pages');
 const dayMaps={};
 function el(tag,cls,html,attr){const d=document.createElement(tag);if(cls)d.className=cls;if(html!==undefined)d.innerHTML=html;if(attr)for(const k in attr)d.setAttribute(k,attr[k]);return d;}
 
-function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}}
-function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
-function renderStays(d){
-  const box=document.getElementById('staybox-'+d);if(!box)return;
-  const list=lsGet('stay_d'+d);
-  let h=list.map((s,i)=>'<div class="stay-item"><a href="'+s.url+'" target="_blank">🏨 '+s.name+'</a><span class="del" onclick="delStay('+d+','+i+')">✕</span></div>').join('');
-  if(!list.length)h='<div style="font-size:11.5px;color:var(--muted-soft)">还没有添加住宿链接，添加后保存在本机浏览器</div>';
-  box.innerHTML=h+'<div class="addrow"><input id="sn-'+d+'" placeholder="酒店/民宿名"><input id="su-'+d+'" placeholder="链接 https://..."><button class="addbtn" onclick="addStay('+d+')">＋添加</button></div>';
-}
-function addStay(d){
-  const n=document.getElementById('sn-'+d).value.trim();
-  const u=document.getElementById('su-'+d).value.trim();
-  if(!n||!u)return;
-  const l=lsGet('stay_d'+d);l.push({name:n,url:u});lsSet('stay_d'+d,l);renderStays(d);
-}
-function delStay(d,i){const l=lsGet('stay_d'+d);l.splice(i,1);lsSet('stay_d'+d,l);renderStays(d);}
-function renderPrep(){
-  const wrap=document.getElementById('prepbox');if(!wrap)return;
-  const rem=lsGet('prep_removed'),ext=lsGet('prep_extra');
-  let h='';
-  PREP.forEach(p=>{
-    const items=p.items.filter(i=>rem.indexOf(i)<0);
-    if(!items.length&&p.n!=='我的补充')return;
-    h+='<div class="attrcard"><b>'+p.n+'</b><p style="margin-top:6px">'+items.map(i=>'<span style="display:flex">• '+i+'<span class="ckdel" onclick="delPrepItem(\''+i.replace(/'/g,'')+'\')">✕</span></span>').join('')+'</p></div>';
-  });
-  h+='<div class="attrcard"><b>📝 我的补充</b><p style="margin-top:6px">'+(ext.map((i,k)=>'<span style="display:flex">• '+i+'<span class="ckdel" onclick="delPrepExtra('+k+')">✕</span></span>').join('')||'')+'</p><div class="addrow"><input id="pe-input" placeholder="补充一项，如：充电宝×2"><button class="addbtn" onclick="addPrepExtra()">＋添加</button></div></div>';
-  wrap.innerHTML=h;
-}
-function delPrepItem(t){const rem=lsGet('prep_removed');rem.push(t);lsSet('prep_removed',rem);renderPrep();}
-function addPrepExtra(){const i=document.getElementById('pe-input').value.trim();if(!i)return;const e=lsGet('prep_extra');e.push(i);lsSet('prep_extra',e);renderPrep();}
-function delPrepExtra(k){const e=lsGet('prep_extra');e.splice(k,1);lsSet('prep_extra',e);renderPrep();}
-function renderCK(){
-  const box=document.getElementById('ckbox');if(!box)return;
-  const rem=lsGet('ck_removed'),ext=lsGet('ck_extra');
-  const items=CHECKLIST.filter(c=>rem.indexOf(c)<0).concat(ext);
-  box.innerHTML=items.map(c=>'<label class="ck"><input type="checkbox">'+c+'<span class="ckdel" onclick="delCKItem(\''+c.replace(/'/g,'')+'\')">✕</span></label>').join('')+
-    '<div class="addrow"><input id="ck-input" placeholder="添加一项待办"><button class="addbtn" onclick="addCK()">＋添加</button></div>';
-}
-function delCKItem(t){const rem=lsGet('ck_removed');rem.push(t);lsSet('ck_removed',rem);renderCK();}
-function addCK(){const i=document.getElementById('ck-input').value.trim();if(!i)return;const e=lsGet('ck_extra');e.push(i);lsSet('ck_extra',e);renderCK();}
-
 function dayNavBtn(d){const b=document.createElement('button');b.className='tab';b.dataset.p=d;b.innerHTML='D'+d+(d===8?' <span class="newtag">NEW</span>':'');b.onclick=()=>showPage(d);tabsEl.appendChild(b);}
 function buildOverview(){
   const sec=el('section','page on');sec.id='page-0';
@@ -571,13 +522,14 @@ function buildOverview(){
   });
   sec.appendChild(daysWrap);
   sec.appendChild(el('h3','sec','✅ 现在就要办（按紧急度）'));
-  const ck=el('div','card');ck.id='ckbox';
+  const ck=el('div','card');ck.innerHTML=CHECKLIST.map(c=>'<label class="ck"><input type="checkbox">'+c+'</label>').join('');
   sec.appendChild(ck);
-  renderCK();
-  sec.appendChild(el('h3','sec','🎒 行前准备（小红书装备清单 · 可增删，存本机浏览器）'));
-  const pg2=el('div','attrgrid');pg2.id='prepbox';
+  sec.appendChild(el('h3','sec','🎒 行前准备（小红书装备清单高频项）'));
+  const pg2=el('div','attrgrid');
+  PREP.forEach(p=>{
+    pg2.appendChild(el('div','attrcard','<b>'+p.n+'</b><p style="margin-top:6px">'+p.items.map(i=>'• '+i).join('<br>')+'</p>'));
+  });
   sec.appendChild(pg2);
-  renderPrep();
   sec.appendChild(el('h3','sec','⚠️ 图面说明'));
   sec.appendChild(el('div','tips','路线已按<b>实际路网绘制</b>（OSRM 导航引擎实测，坐标已转 GCJ-02）；格聂南线/丹道秘境部分路段无信号，出发前在高德/百度下载<b>离线地图</b>。亚丁10/4门票限流16000人/天，务必提前在官方公众号预约。⚠️高德当前显示 <b>G350映秀-卧龙-巴朗山段不可通行</b>（自动绕夹金山或理县），出发前一周务必确认。冷嘎措B线12–4月封山，10月金山概率高。底图 ©高德地图/GeoQ智图，坐标已转GCJ-02。'));
   pagesEl.appendChild(sec);
@@ -641,8 +593,6 @@ function buildDay(d){
   hint.textContent='在高德App里把以上点位按顺序设为「途经」即可整段导航；点绿色按钮直接唤起高德导航到单点。';
   wp.appendChild(hint);
   colL.appendChild(wp);
-  colL.appendChild(el('h3','sec','🏨 住宿链接（可添加/删除，存本机浏览器）'));
-  const stb=el('div','card');stb.id='staybox-'+d;colL.appendChild(stb);
   sec.appendChild(colL);
   const colR=el('div','colR');
   colR.appendChild(el('h3','sec','📷 拍照机位（小红书高频点位整理）'));
@@ -653,7 +603,6 @@ function buildDay(d){
   colR.appendChild(el('div','tips',o.tips.map(t=>'• '+t).join('<br>')));
   sec.appendChild(colR);
   pagesEl.appendChild(sec);
-  renderStays(d);
 }
 function showPage(d){
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',+t.dataset.p===d));
