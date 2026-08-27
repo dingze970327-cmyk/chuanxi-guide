@@ -117,6 +117,9 @@
   .warnlist li{position:relative;padding:6px 0;border-bottom:1px dashed var(--hairline-soft);font-size:13px;color:var(--body);line-height:1.6;}
   .warnlist li:last-child{border:none}
   .warnlist li::before{content:'⚠';position:absolute;left:-22px;color:#e67e22;font-size:12px;}
+
+  .mpcode{background:#f3edfb;border:1px dashed #c4b5fd;border-radius:8px;padding:8px 10px;margin:6px 0;word-break:break-all;font-size:12px;color:#6d28d9;}
+  .copybtn{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:12.5px;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -506,6 +509,9 @@ const pagesEl=document.getElementById('pages');
 const dayMaps={};
 function el(tag,cls,html,attr){const d=document.createElement(tag);if(cls)d.className=cls;if(html!==undefined)d.innerHTML=html;if(attr)for(const k in attr)d.setAttribute(k,attr[k]);return d;}
 
+
+function copyMP(){navigator.clipboard.writeText('#小程序://小算账/3CALtkKPBlpenef').then(()=>alert('口令已复制：去微信任意聊天粘贴发送，点击即可打开小算账')).catch(()=>{});}
+
 function dayNavBtn(d){const b=document.createElement('button');b.className='tab';b.dataset.p=d;b.innerHTML='D'+d+(d===8?' <span class="newtag">NEW</span>':'');b.onclick=()=>showPage(d);tabsEl.appendChild(b);}
 function buildOverview(){
   const sec=el('section','page on');sec.id='page-0';
@@ -530,6 +536,10 @@ function buildOverview(){
     pg2.appendChild(el('div','attrcard','<b>'+p.n+'</b><p style="margin-top:6px">'+p.items.map(i=>'• '+i).join('<br>')+'</p>'));
   });
   sec.appendChild(pg2);
+  sec.appendChild(el('h3','sec','💰 共同记账（微信小程序·小算账）'));
+  const bj=el('div','card');
+  bj.innerHTML='<div style="font-size:13px;color:var(--body);line-height:1.7">4人出行AA记账用它：<b>微信搜索「小算账」</b>，或复制下方口令发到任意微信聊天后点击打开：</div><div class="mpcode">#小程序://小算账/3CALtkKPBlpenef</div><button class="copybtn" onclick="copyMP()">📋 复制口令</button>';
+  sec.appendChild(bj);
   sec.appendChild(el('h3','sec','⚠️ 图面说明'));
   sec.appendChild(el('div','tips','路线已按<b>实际路网绘制</b>（OSRM 导航引擎实测，坐标已转 GCJ-02）；格聂南线/丹道秘境部分路段无信号，出发前在高德/百度下载<b>离线地图</b>。亚丁10/4门票限流16000人/天，务必提前在官方公众号预约。⚠️高德当前显示 <b>G350映秀-卧龙-巴朗山段不可通行</b>（自动绕夹金山或理县），出发前一周务必确认。冷嘎措B线12–4月封山，10月金山概率高。底图 ©高德地图/GeoQ智图，坐标已转GCJ-02。'));
   pagesEl.appendChild(sec);
